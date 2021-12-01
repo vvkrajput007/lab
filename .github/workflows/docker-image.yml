@@ -26,6 +26,6 @@ jobs:
         password: HLZa5bnTqoy34=3CbvjqBQhBAL3PnSwe
         # Container registry server url
         login-server: inteltrainingacr02.azurecr.io
-    - name: Build the Docker image
+    - name: Push the Docker image
       run: docker push inteltrainingacr02.azurecr.io/actiondemo01:1
       
