@@ -27,5 +27,5 @@ jobs:
         # Container registry server url
         login-server: inteltrainingacr02.azurecr.io
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag inteltrainingacr02.azurecr.io/actiondemo01:1
+      run: docker push . --file Dockerfile --tag inteltrainingacr02.azurecr.io/actiondemo01:1
       
