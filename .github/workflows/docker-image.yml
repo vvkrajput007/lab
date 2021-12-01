@@ -28,4 +28,9 @@ jobs:
         login-server: inteltrainingacr02.azurecr.io
     - name: Push the Docker image
       run: docker push inteltrainingacr02.azurecr.io/actiondemo01:1
-      
+    - name: login to acr using helm
+      run: |
+        echo $ | helm registry login inteltrainingacr02.azurecr.io --username inteltrainingacr02 --password HLZa5bnTqoy34=3CbvjqBQhBAL3PnSwe 
+    - name: publish chart to acr
+      run: |
+        helm chart push inteltrainingacr02.azurecr.io/$:latest 
