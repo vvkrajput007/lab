@@ -5,6 +5,13 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+    
+env:
+  HELM_EXPERIMENTAL_OCI: 1
+  HELM_VERSION_TO_INSTALL: 3.5.0
+  ACR_NAME: acrdemoutkarsh
+  ACR_REPO_NAME: helmdemo/vote-app
+
 
 jobs:
 
@@ -28,6 +35,10 @@ jobs:
         login-server: inteltrainingacr02.azurecr.io
     - name: Push the Docker image
       run: docker push inteltrainingacr02.azurecr.io/actiondemo01:1
+    - name: install helm
+      uses: Azure/setup-helm@v1
+      with:
+          version: ${{ env.HELM_VERSION_TO_INSTALL }}# default is latest
     - name: login to acr using helm
       run: |
         echo $ | helm registry login inteltrainingacr02.azurecr.io --username inteltrainingacr02 --password HLZa5bnTqoy34=3CbvjqBQhBAL3PnSwe 
