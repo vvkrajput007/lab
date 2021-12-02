@@ -36,6 +36,7 @@ jobs:
     needs: build_push_image # Will wait for the execution of the previous job
     
     steps:
+    - uses: actions/checkout@v2
     - name: Azure Kubernetes set context
       uses: Azure/aks-set-context@v1.1
       with:
