@@ -5,12 +5,6 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-    
-env:
-  HELM_EXPERIMENTAL_OCI: 1
-  HELM_VERSION_TO_INSTALL: 3.5.0
-  ACR_NAME: acrdemoutkarsh
-  ACR_REPO_NAME: helmdemo/vote-app
 
 
 jobs:
@@ -22,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag inteltrainingacr02.azurecr.io/actiondemo01:1
+      run: docker build . --file Dockerfile --tag inteltrainingacr02.azurecr.io/actiondemo01:latest
    
     - name: Azure Container Registry Login
       uses: Azure/docker-login@v1
@@ -34,17 +28,4 @@ jobs:
         # Container registry server url
         login-server: inteltrainingacr02.azurecr.io
     - name: Push the Docker image
-      run: docker push inteltrainingacr02.azurecr.io/actiondemo01:1
-   
-    - name: Helm tool installer
-      uses: Azure/setup-helm@v1
-      with:
-        # Version of helm
-        version: 3.3.1
-        
-    - name: login to acr using helm
-      run: |
-        echo $ | helm registry login inteltrainingacr02.azurecr.io --username inteltrainingacr02 --password HLZa5bnTqoy34=3CbvjqBQhBAL3PnSwe 
-    - name: publish chart to acr
-      run: |
-        helm chart push inteltrainingacr02.azurecr.io/$:latest 
+      run: docker push inteltrainingacr02.azurecr.io/actiondemo01:latest
