@@ -96,7 +96,7 @@ jobs:
       run: helm chart pull sidlabacr03.azurecr.io/charts-actiondemo01-api:latest
    
     - name: Helm Chart Move
-      run: helm chart export sidlabacr03.azurecr.i/charts-actiondemo01-api:latest --destination ./install
+      run: helm chart export sidlabacr03.azurecr.io/charts-actiondemo01-api:latest --destination ./install
       
     - name: Helm Chart Install
       run: helm upgrade --namespace ns-dev --install --set image.tag=latest actiondemo01-api ./install/actiondemo01-api # release name chart name
