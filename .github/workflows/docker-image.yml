@@ -87,7 +87,7 @@ jobs:
         
     - name: Login to ACR using HELM
       run: |
-        echo $ | helm registry login cloudnativeacr01.azurecr.io --username sidlabacr03 --password JFHb3IFYta5QZxR44XzU6j=ch6OhS9GI
+        echo $ | helm registry login cloudnativeacr01.azurecr.io --username cloudnativeacr01 --password mqQLbr9e0wwHnaEHM/AVaD2uMqvgdmXd
         
     - name : Set Helm Env Var
       run : export HELM_EXPERIMENTAL_OCI=1  
