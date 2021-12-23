@@ -93,7 +93,7 @@ jobs:
       run : export HELM_EXPERIMENTAL_OCI=1  
       
     - name: Helm Chart Pull
-      run: helm chart pull cloudnativeacr01.azurecr.io.io/charts-actiondemo01-api:latest
+      run: helm chart pull cloudnativeacr01.azurecr.io/charts-actiondemo01-api:latest
    
     - name: Helm Chart Move
       run: helm chart export cloudnativeacr01.azurecr.io/charts-actiondemo01-api:latest --destination ./install
