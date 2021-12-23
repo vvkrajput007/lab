@@ -5,6 +5,9 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+    
+env:
+  HELM_EXPERIMENTAL_OCI: 1
 
 
 jobs:
@@ -22,13 +25,35 @@ jobs:
       uses: Azure/docker-login@v1
       with:
         # Container registry username
-        username: sidlabacr03 
+        username: sidlabacr03 # ${{ secrets.ACR_NAME }}
         # Container registry password
         password: JFHb3IFYta5QZxR44XzU6j=ch6OhS9GI
         # Container registry server url
         login-server: sidlabacr03.azurecr.io
     - name: Push the Docker image
       run: docker push sidlabacr03.azurecr.io/actiondemo01:latest
+    
+    - name: Helm tool installer
+      uses: Azure/setup-helm@v1
+      with:
+        # Version of helm
+        version: 3.3.1
+        
+    - name: Login to ACR using HELM
+      run: |
+        echo $ | helm registry login sidlabacr03.azurecr.io --username sidlabacr03 --password JFHb3IFYta5QZxR44XzU6j=ch6OhS9GI
+        
+    - name: Package the helm chart
+      run: helm package ./helm/actiondemo01-api
+      
+    - name: save helm chart to local registry
+      run: |
+       helm chart save ./actiondemo01-api-0.1.0.tgz sidlabacr03.azurecr.io/charts-actiondemo01-api:latest
+       
+    - name: Helm chart Push
+      run: helm chart push sidlabacr03.azurecr.io/charts-actiondemo01-api:latest
+
+ 
  
  
   deploy:
@@ -54,11 +79,47 @@ jobs:
         kubeconfig: ${{secrets.KUBECONFIG}}  
       id: login
       
-    - name: Apply AKS Deployment
-      run: kubectl apply -f deployment.yaml
+    - name: Helm tool installer
+      uses: Azure/setup-helm@v1
+      with:
+        # Version of helm
+        version: 3.3.1
+        
+    - name: Login to ACR using HELM
+      run: |
+        echo $ | helm registry login sidlabacr03.azurecr.io --username sidlabacr03 --password JFHb3IFYta5QZxR44XzU6j=ch6OhS9GI
+        
+    - name : Set Helm Env Var
+      run : export HELM_EXPERIMENTAL_OCI=1  
       
-    - name: Apply AKS Deployment
-      run: kubectl apply -f service.yaml
+    - name: Helm Chart Pull
+      run: helm chart pull sidlabacr03.azurecr.io/charts-actiondemo01-api:latest
+   
+    - name: Helm Chart Move
+      run: helm chart export sidlabacr03.azurecr.io/charts-actiondemo01-api:latest --destination ./install
+      
+    - name: Helm Chart Install
+      run: helm upgrade --namespace ns-dev --install --set image.tag=latest actiondemo01-api ./install/actiondemo01-api # release name chart name
+     
+      
+      
+      
+      
+      
+      
+      
+
+      
+
+
+
+
+
+#     - name: Apply AKS Deployment
+#       run: kubectl apply -f deployment.yaml
+      
+#     - name: Apply AKS Deployment
+#       run: kubectl apply -f service.yaml
     
     
     
