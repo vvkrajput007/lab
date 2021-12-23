@@ -30,7 +30,7 @@ jobs:
         # Container registry server url
         login-server: cloudnativeacr01.azurecr.io
     - name: Push the Docker image
-      run: docker push cloudnativeacr01.azurecr.io/vvk:latest
+      run: docker push sidlabacr03.azurecr.io/actiondemo01:latesttt
     
     - name: Helm tool installer
       uses: Azure/setup-helm@v1
