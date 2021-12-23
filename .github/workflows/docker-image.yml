@@ -19,19 +19,19 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag sidlabacr03.azurecr.io/actiondemo01:latest
+      run: docker build . --file Dockerfile --tag cloudnativeacr01.azurecr.io/vvk:latest
    
     - name: Azure Container Registry Login
       uses: Azure/docker-login@v1
       with:
         # Container registry username
-        username: sidlabacr03 # ${{ secrets.ACR_NAME }}
+        username: cloudnativeacr01 # ${{ secrets.ACR_NAME }}
         # Container registry password
-        password: JFHb3IFYta5QZxR44XzU6j=ch6OhS9GI
+        password: mqQLbr9e0wwHnaEHM/AVaD2uMqvgdmXd
         # Container registry server url
-        login-server: sidlabacr03.azurecr.io
+        login-server: cloudnativeacr01.azurecr.io
     - name: Push the Docker image
-      run: docker push sidlabacr03.azurecr.io/actiondemo01:latest
+      run: docker push cloudnativeacr01.azurecr.io/vvk:latest
     
     - name: Helm tool installer
       uses: Azure/setup-helm@v1
@@ -41,14 +41,14 @@ jobs:
         
     - name: Login to ACR using HELM
       run: |
-        echo $ | helm registry login sidlabacr03.azurecr.io --username sidlabacr03 --password JFHb3IFYta5QZxR44XzU6j=ch6OhS9GI
+        echo $ | helm registry login cloudnativeacr01.azurecr.io --username cloudnativeacr01 --password mqQLbr9e0wwHnaEHM/AVaD2uMqvgdmXd
         
     - name: Package the helm chart
       run: helm package ./helm/actiondemo01-api
       
     - name: save helm chart to local registry
       run: |
-       helm chart save ./actiondemo01-api-0.1.0.tgz sidlabacr03.azurecr.io/charts-actiondemo01-api:latest
+       helm chart save ./actiondemo01-api-0.1.0.tgz cloudnativeacr01.azurecr.io/charts-actiondemo01-api:latest
        
     - name: Helm chart Push
       run: helm chart push sidlabacr03.azurecr.io/charts-actiondemo01-api:latest
@@ -87,16 +87,16 @@ jobs:
         
     - name: Login to ACR using HELM
       run: |
-        echo $ | helm registry login sidlabacr03.azurecr.io --username sidlabacr03 --password JFHb3IFYta5QZxR44XzU6j=ch6OhS9GI
+        echo $ | helm registry login cloudnativeacr01.azurecr.io --username sidlabacr03 --password JFHb3IFYta5QZxR44XzU6j=ch6OhS9GI
         
     - name : Set Helm Env Var
       run : export HELM_EXPERIMENTAL_OCI=1  
       
     - name: Helm Chart Pull
-      run: helm chart pull sidlabacr03.azurecr.io/charts-actiondemo01-api:latest
+      run: helm chart pull cloudnativeacr01.azurecr.io.io/charts-actiondemo01-api:latest
    
     - name: Helm Chart Move
-      run: helm chart export sidlabacr03.azurecr.io/charts-actiondemo01-api:latest --destination ./install
+      run: helm chart export cloudnativeacr01.azurecr.io/charts-actiondemo01-api:latest --destination ./install
       
     - name: Helm Chart Install
       run: helm upgrade --namespace ns-dev --install --set image.tag=latest actiondemo01-api ./install/actiondemo01-api # release name chart name
