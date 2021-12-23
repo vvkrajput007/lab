@@ -19,7 +19,7 @@ pvc:
   name: "actiondemo01pvc"
 
 image:
-  repository: "sidlabacr03.azurecr.io/actiondemo01"
+  repository: "cloudnativeacr01.azurecr.io/actiondemo01"
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 imagePullSecrets:
